@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, isActive }) {
+export default function Player({
+  initialName,
+  symbol,
+  isActive,
+  onChangeName,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
   const handleEditClick = () => {
@@ -10,6 +15,7 @@ export default function Player({ initialName, symbol, isActive }) {
     // setIsEditing(!isEditing); // it also true, as in both the case, isEditing is in same state, once the component is rerendered then the isEditing value will be changed. as here both lines of setIsEditing is accessing the previous isEditing value, so both will assign it to true instead of  true followed by false
 
     setIsEditing((editing) => !editing);
+    if (isEditing) onChangeName(symbol, playerName);
   };
 
   const handleChange = (e) => {
@@ -22,6 +28,8 @@ export default function Player({ initialName, symbol, isActive }) {
     editablePlayerName = (
       <input type="text" required value={playerName} onChange={handleChange} />
     );
+
+  // if (!isEditing) onSave(symbol, playerName);
 
   return (
     <li className={isActive ? "active" : undefined}>
